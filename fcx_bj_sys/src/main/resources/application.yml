@@ -140,3 +140,6 @@ gen:
   autoRemovePre: false
   # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
   tablePrefix: sys_
+
+file:
+  path: E:/projects/fcx_bj/文件路径/
