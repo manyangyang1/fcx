@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DExpectedMapper">
+    
+    <resultMap type="DExpected" id="DExpectedResult">
+        <result property="expectedCode"    column="expected_code"    />
+        <result property="expectedName"    column="expected_name"    />
+    </resultMap>
+
+    <sql id="selectDExpectedVo">
+        select expected_code, expected_name from d_expected
+    </sql>
+
+    <select id="selectDExpectedList" parameterType="DExpected" resultMap="DExpectedResult">
+        <include refid="selectDExpectedVo"/>
+        <where>  
+            <if test="expectedCode != null  and expectedCode != ''"> and expected_code = #{expectedCode}</if>
+            <if test="expectedName != null  and expectedName != ''"> and expected_name like concat(concat('%', #{expectedName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDExpectedByExpectedCode" parameterType="String" resultMap="DExpectedResult">
+        <include refid="selectDExpectedVo"/>
+        where expected_code = #{expectedCode}
+    </select>
+        
+    <insert id="insertDExpected" parameterType="DExpected">
+        insert into d_expected
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="expectedCode != null">expected_code,</if>
+            <if test="expectedName != null">expected_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="expectedCode != null">#{expectedCode},</if>
+            <if test="expectedName != null">#{expectedName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDExpected" parameterType="DExpected">
+        update d_expected
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="expectedName != null">expected_name = #{expectedName},</if>
+        </trim>
+        where expected_code = #{expectedCode}
+    </update>
+
+    <delete id="deleteDExpectedByExpectedCode" parameterType="String">
+        delete from d_expected where expected_code = #{expectedCode}
+    </delete>
+
+    <delete id="deleteDExpectedByExpectedCodes" parameterType="String">
+        delete from d_expected where expected_code in 
+        <foreach item="expectedCode" collection="array" open="(" separator="," close=")">
+            #{expectedCode}
+        </foreach>
+    </delete>
+</mapper>

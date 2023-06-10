@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DCustomerdeptMapper">
+    
+    <resultMap type="DCustomerdept" id="DCustomerdeptResult">
+        <result property="customerdept"    column="customerdept"    />
+        <result property="kqname"    column="kqname"    />
+    </resultMap>
+
+    <sql id="selectDCustomerdeptVo">
+        select customerdept, kqname from d_customerdept
+    </sql>
+
+    <select id="selectDCustomerdeptList" parameterType="DCustomerdept" resultMap="DCustomerdeptResult">
+        <include refid="selectDCustomerdeptVo"/>
+        <where>  
+            <if test="customerdept != null  and customerdept != ''"> and customerdept = #{customerdept}</if>
+            <if test="kqname != null  and kqname != ''"> and kqname like concat(concat('%', #{kqname}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDCustomerdeptByCustomerdept" parameterType="String" resultMap="DCustomerdeptResult">
+        <include refid="selectDCustomerdeptVo"/>
+        where customerdept = #{customerdept}
+    </select>
+        
+    <insert id="insertDCustomerdept" parameterType="DCustomerdept">
+        insert into d_customerdept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerdept != null">customerdept,</if>
+            <if test="kqname != null">kqname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerdept != null">#{customerdept},</if>
+            <if test="kqname != null">#{kqname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDCustomerdept" parameterType="DCustomerdept">
+        update d_customerdept
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="kqname != null">kqname = #{kqname},</if>
+        </trim>
+        where customerdept = #{customerdept}
+    </update>
+
+    <delete id="deleteDCustomerdeptByCustomerdept" parameterType="String">
+        delete from d_customerdept where customerdept = #{customerdept}
+    </delete>
+
+    <delete id="deleteDCustomerdeptByCustomerdepts" parameterType="String">
+        delete from d_customerdept where customerdept in 
+        <foreach item="customerdept" collection="array" open="(" separator="," close=")">
+            #{customerdept}
+        </foreach>
+    </delete>
+</mapper>

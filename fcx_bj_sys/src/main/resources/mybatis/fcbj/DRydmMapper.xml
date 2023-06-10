@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DRydmMapper">
+    
+    <resultMap type="DRydm" id="DRydmResult">
+        <result property="p13uid"    column="p13uid"    />
+        <result property="sectionOfficeCode"    column="section_office_code"    />
+    </resultMap>
+
+    <sql id="selectDRydmVo">
+        select p13uid, section_office_code from d_rydm
+    </sql>
+
+    <select id="selectDRydmList" parameterType="DRydm" resultMap="DRydmResult">
+        <include refid="selectDRydmVo"/>
+        <where>  
+            <if test="p13uid != null  and p13uid != ''"> and p13uid = #{p13uid}</if>
+            <if test="sectionOfficeCode != null  and sectionOfficeCode != ''"> and section_office_code = #{sectionOfficeCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectDRydmByP13uid" parameterType="String" resultMap="DRydmResult">
+        <include refid="selectDRydmVo"/>
+        where p13uid = #{p13uid}
+    </select>
+        
+    <insert id="insertDRydm" parameterType="DRydm">
+        insert into d_rydm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="p13uid != null">p13uid,</if>
+            <if test="sectionOfficeCode != null">section_office_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="p13uid != null">#{p13uid},</if>
+            <if test="sectionOfficeCode != null">#{sectionOfficeCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDRydm" parameterType="DRydm">
+        update d_rydm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sectionOfficeCode != null">section_office_code = #{sectionOfficeCode},</if>
+        </trim>
+        where p13uid = #{p13uid}
+    </update>
+
+    <delete id="deleteDRydmByP13uid" parameterType="String">
+        delete from d_rydm where p13uid = #{p13uid}
+    </delete>
+
+    <delete id="deleteDRydmByP13uids" parameterType="String">
+        delete from d_rydm where p13uid in 
+        <foreach item="p13uid" collection="array" open="(" separator="," close=")">
+            #{p13uid}
+        </foreach>
+    </delete>
+</mapper>

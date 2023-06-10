@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DValueConfirmMapper">
+    
+    <resultMap type="DValueConfirm" id="DValueConfirmResult">
+        <result property="propertyType"    column="property_type"    />
+        <result property="valueConfirm"    column="value_confirm"    />
+    </resultMap>
+
+    <sql id="selectDValueConfirmVo">
+        select property_type, value_confirm from d_value_confirm
+    </sql>
+
+    <select id="selectDValueConfirmList" parameterType="DValueConfirm" resultMap="DValueConfirmResult">
+        <include refid="selectDValueConfirmVo"/>
+        <where>  
+            <if test="propertyType != null  and propertyType != ''"> and property_type = #{propertyType}</if>
+            <if test="valueConfirm != null  and valueConfirm != ''"> and value_confirm = #{valueConfirm}</if>
+        </where>
+    </select>
+    
+    <select id="selectDValueConfirmByPropertyType" parameterType="String" resultMap="DValueConfirmResult">
+        <include refid="selectDValueConfirmVo"/>
+        where property_type = #{propertyType}
+    </select>
+        
+    <insert id="insertDValueConfirm" parameterType="DValueConfirm">
+        insert into d_value_confirm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="propertyType != null">property_type,</if>
+            <if test="valueConfirm != null">value_confirm,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="propertyType != null">#{propertyType},</if>
+            <if test="valueConfirm != null">#{valueConfirm},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDValueConfirm" parameterType="DValueConfirm">
+        update d_value_confirm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="valueConfirm != null">value_confirm = #{valueConfirm},</if>
+        </trim>
+        where property_type = #{propertyType}
+    </update>
+
+    <delete id="deleteDValueConfirmByPropertyType" parameterType="String">
+        delete from d_value_confirm where property_type = #{propertyType}
+    </delete>
+
+    <delete id="deleteDValueConfirmByPropertyTypes" parameterType="String">
+        delete from d_value_confirm where property_type in 
+        <foreach item="propertyType" collection="array" open="(" separator="," close=")">
+            #{propertyType}
+        </foreach>
+    </delete>
+</mapper>

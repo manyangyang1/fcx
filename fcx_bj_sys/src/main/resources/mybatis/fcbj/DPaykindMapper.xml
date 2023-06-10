@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DPaykindMapper">
+    
+    <resultMap type="DPaykind" id="DPaykindResult">
+        <result property="paycode"    column="paycode"    />
+        <result property="payname"    column="payname"    />
+    </resultMap>
+
+    <sql id="selectDPaykindVo">
+        select paycode, payname from d_paykind
+    </sql>
+
+    <select id="selectDPaykindList" parameterType="DPaykind" resultMap="DPaykindResult">
+        <include refid="selectDPaykindVo"/>
+        <where>  
+            <if test="paycode != null  and paycode != ''"> and paycode = #{paycode}</if>
+            <if test="payname != null  and payname != ''"> and payname like concat(concat('%', #{payname}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDPaykindByPaycode" parameterType="String" resultMap="DPaykindResult">
+        <include refid="selectDPaykindVo"/>
+        where paycode = #{paycode}
+    </select>
+        
+    <insert id="insertDPaykind" parameterType="DPaykind">
+        insert into d_paykind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paycode != null">paycode,</if>
+            <if test="payname != null">payname,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paycode != null">#{paycode},</if>
+            <if test="payname != null">#{payname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDPaykind" parameterType="DPaykind">
+        update d_paykind
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="payname != null">payname = #{payname},</if>
+        </trim>
+        where paycode = #{paycode}
+    </update>
+
+    <delete id="deleteDPaykindByPaycode" parameterType="String">
+        delete from d_paykind where paycode = #{paycode}
+    </delete>
+
+    <delete id="deleteDPaykindByPaycodes" parameterType="String">
+        delete from d_paykind where paycode in 
+        <foreach item="paycode" collection="array" open="(" separator="," close=")">
+            #{paycode}
+        </foreach>
+    </delete>
+</mapper>

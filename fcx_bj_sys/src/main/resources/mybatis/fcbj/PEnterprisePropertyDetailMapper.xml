@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.PEnterprisePropertyDetailMapper">
+
+    <resultMap type="PEnterprisePropertyDetail" id="PEnterprisePropertyDetailResult">
+        <result property="rowId"    column="row_id"    />
+        <result property="applicationNo"    column="application_no"    />
+        <result property="serialno"    column="serialno"    />
+        <result property="risksurveyNo"    column="risksurvey_no"    />
+        <result property="businessCode"    column="business_code"    />
+        <result property="address"    column="address"    />
+        <result property="operationDate"    column="operation_date"    />
+        <result property="totalInsuredAmount"    column="total_insured_amount"    />
+        <result property="inceptionDate"    column="inception_date"    />
+        <result property="plannedEndDate"    column="planned_end_date"    />
+        <result property="priskinducode"    column="priskinducode"    />
+        <result property="insuredamountConfirm"    column="insuredamount_confirm"    />
+        <result property="insuredvalueConfirm"    column="insuredvalue_confirm"    />
+        <result property="othersRisk"    column="others_risk"    />
+        <result property="deductible"    column="deductible"    />
+        <result property="paykind"    column="paykind"    />
+        <result property="totalPremiumAmount"    column="total_premium_amount"    />
+        <result property="classesitem"    column="classesitem"    />
+        <result property="specialStipulation"    column="special_stipulation"    />
+        <result property="expectedExpenses"    column="expected_expenses"    />
+        <result property="otherDemands"    column="other_demands"    />
+        <result property="associatedBusiness"    column="associated_business"    />
+        <result property="underwriteOpinion"    column="underwrite_opinion"    />
+        <result property="notes"    column="notes"    />
+        <result property="tbfNo"    column="tbf_no"    />
+        <result property="tbf"    column="tbf"    />
+    </resultMap>
+
+    <sql id="selectPEnterprisePropertyDetailVo">
+        select row_id, application_no, serialno, risksurvey_no, business_code, address, operation_date, total_insured_amount, inception_date, planned_end_date, priskinducode, insuredamount_confirm, insuredvalue_confirm, others_risk, deductible, paykind, total_premium_amount, classesitem, special_stipulation, expected_expenses, other_demands, associated_business, underwrite_opinion, notes, tbf_no, tbf from p_enterprise_property_detail
+    </sql>
+
+    <select id="selectPEnterprisePropertyDetailList" parameterType="PEnterprisePropertyDetail" resultMap="PEnterprisePropertyDetailResult">
+        <include refid="selectPEnterprisePropertyDetailVo"/>
+        <where>
+            <if test="rowId != null  and rowId != ''"> and row_id = #{rowId}</if>
+            <if test="applicationNo != null  and applicationNo != ''"> and application_no = #{applicationNo}</if>
+            <if test="serialno != null "> and serialno = #{serialno}</if>
+            <if test="risksurveyNo != null  and risksurveyNo != ''"> and risksurvey_no = #{risksurveyNo}</if>
+            <if test="businessCode != null  and businessCode != ''"> and business_code = #{businessCode}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="operationDate != null "> and operation_date = #{operationDate}</if>
+            <if test="totalInsuredAmount != null "> and total_insured_amount = #{totalInsuredAmount}</if>
+            <if test="inceptionDate != null "> and inception_date = #{inceptionDate}</if>
+            <if test="plannedEndDate != null "> and planned_end_date = #{plannedEndDate}</if>
+            <if test="priskinducode != null  and priskinducode != ''"> and priskinducode = #{priskinducode}</if>
+            <if test="insuredamountConfirm != null  and insuredamountConfirm != ''"> and insuredamount_confirm = #{insuredamountConfirm}</if>
+            <if test="insuredvalueConfirm != null  and insuredvalueConfirm != ''"> and insuredvalue_confirm = #{insuredvalueConfirm}</if>
+            <if test="othersRisk != null  and othersRisk != ''"> and others_risk = #{othersRisk}</if>
+            <if test="deductible != null  and deductible != ''"> and deductible = #{deductible}</if>
+            <if test="paykind != null  and paykind != ''"> and paykind = #{paykind}</if>
+            <if test="totalPremiumAmount != null "> and total_premium_amount = #{totalPremiumAmount}</if>
+            <if test="classesitem != null  and classesitem != ''"> and classesitem = #{classesitem}</if>
+            <if test="specialStipulation != null  and specialStipulation != ''"> and special_stipulation = #{specialStipulation}</if>
+            <if test="expectedExpenses != null  and expectedExpenses != ''"> and expected_expenses = #{expectedExpenses}</if>
+            <if test="otherDemands != null  and otherDemands != ''"> and other_demands = #{otherDemands}</if>
+            <if test="associatedBusiness != null  and associatedBusiness != ''"> and associated_business = #{associatedBusiness}</if>
+            <if test="underwriteOpinion != null  and underwriteOpinion != ''"> and underwrite_opinion = #{underwriteOpinion}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="tbfNo != null  and tbfNo != ''"> and tbf_no = #{tbfNo}</if>
+            <if test="tbf != null "> and tbf = #{tbf}</if>
+        </where>
+    </select>
+
+    <select id="selectPEnterprisePropertyDetailByRowId" parameterType="String" resultMap="PEnterprisePropertyDetailResult">
+        <include refid="selectPEnterprisePropertyDetailVo"/>
+        where row_id = #{rowId}
+    </select>
+
+    <insert id="insertPEnterprisePropertyDetail" parameterType="PEnterprisePropertyDetail">
+        insert into p_enterprise_property_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rowId != null">row_id,</if>
+            <if test="applicationNo != null and applicationNo != ''">application_no,</if>
+            <if test="serialno != null">serialno,</if>
+            <if test="risksurveyNo != null">risksurvey_no,</if>
+            <if test="businessCode != null">business_code,</if>
+            <if test="address != null">address,</if>
+            <if test="operationDate != null">operation_date,</if>
+            <if test="totalInsuredAmount != null">total_insured_amount,</if>
+            <if test="inceptionDate != null">inception_date,</if>
+            <if test="plannedEndDate != null">planned_end_date,</if>
+            <if test="priskinducode != null">priskinducode,</if>
+            <if test="insuredamountConfirm != null">insuredamount_confirm,</if>
+            <if test="insuredvalueConfirm != null">insuredvalue_confirm,</if>
+            <if test="othersRisk != null">others_risk,</if>
+            <if test="deductible != null and deductible != ''">deductible,</if>
+            <if test="paykind != null">paykind,</if>
+            <if test="totalPremiumAmount != null">total_premium_amount,</if>
+            <if test="classesitem != null">classesitem,</if>
+            <if test="specialStipulation != null">special_stipulation,</if>
+            <if test="expectedExpenses != null">expected_expenses,</if>
+            <if test="otherDemands != null">other_demands,</if>
+            <if test="associatedBusiness != null">associated_business,</if>
+            <if test="underwriteOpinion != null">underwrite_opinion,</if>
+            <if test="notes != null">notes,</if>
+            <if test="tbfNo != null">tbf_no,</if>
+            <if test="tbf != null">tbf,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rowId != null">#{rowId},</if>
+            <if test="applicationNo != null and applicationNo != ''">#{applicationNo},</if>
+            <if test="serialno != null">#{serialno},</if>
+            <if test="risksurveyNo != null">#{risksurveyNo},</if>
+            <if test="businessCode != null">#{businessCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="operationDate != null">#{operationDate},</if>
+            <if test="totalInsuredAmount != null">#{totalInsuredAmount},</if>
+            <if test="inceptionDate != null">#{inceptionDate},</if>
+            <if test="plannedEndDate != null">#{plannedEndDate},</if>
+            <if test="priskinducode != null">#{priskinducode},</if>
+            <if test="insuredamountConfirm != null">#{insuredamountConfirm},</if>
+            <if test="insuredvalueConfirm != null">#{insuredvalueConfirm},</if>
+            <if test="othersRisk != null">#{othersRisk},</if>
+            <if test="deductible != null and deductible != ''">#{deductible},</if>
+            <if test="paykind != null">#{paykind},</if>
+            <if test="totalPremiumAmount != null">#{totalPremiumAmount},</if>
+            <if test="classesitem != null">#{classesitem},</if>
+            <if test="specialStipulation != null">#{specialStipulation},</if>
+            <if test="expectedExpenses != null">#{expectedExpenses},</if>
+            <if test="otherDemands != null">#{otherDemands},</if>
+            <if test="associatedBusiness != null">#{associatedBusiness},</if>
+            <if test="underwriteOpinion != null">#{underwriteOpinion},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="tbfNo != null">#{tbfNo},</if>
+            <if test="tbf != null">#{tbf},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePEnterprisePropertyDetail" parameterType="PEnterprisePropertyDetail">
+        update p_enterprise_property_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applicationNo != null and applicationNo != ''">application_no = #{applicationNo},</if>
+            <if test="serialno != null">serialno = #{serialno},</if>
+            <if test="risksurveyNo != null">risksurvey_no = #{risksurveyNo},</if>
+            <if test="businessCode != null">business_code = #{businessCode},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="operationDate != null">operation_date = #{operationDate},</if>
+            <if test="totalInsuredAmount != null">total_insured_amount = #{totalInsuredAmount},</if>
+            <if test="inceptionDate != null">inception_date = #{inceptionDate},</if>
+            <if test="plannedEndDate != null">planned_end_date = #{plannedEndDate},</if>
+            <if test="priskinducode != null">priskinducode = #{priskinducode},</if>
+            <if test="insuredamountConfirm != null">insuredamount_confirm = #{insuredamountConfirm},</if>
+            <if test="insuredvalueConfirm != null">insuredvalue_confirm = #{insuredvalueConfirm},</if>
+            <if test="othersRisk != null">others_risk = #{othersRisk},</if>
+            <if test="deductible != null and deductible != ''">deductible = #{deductible},</if>
+            <if test="paykind != null">paykind = #{paykind},</if>
+            <if test="totalPremiumAmount != null">total_premium_amount = #{totalPremiumAmount},</if>
+            <if test="classesitem != null">classesitem = #{classesitem},</if>
+            <if test="specialStipulation != null">special_stipulation = #{specialStipulation},</if>
+            <if test="expectedExpenses != null">expected_expenses = #{expectedExpenses},</if>
+            <if test="otherDemands != null">other_demands = #{otherDemands},</if>
+            <if test="associatedBusiness != null">associated_business = #{associatedBusiness},</if>
+            <if test="underwriteOpinion != null">underwrite_opinion = #{underwriteOpinion},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="tbfNo != null">tbf_no = #{tbfNo},</if>
+            <if test="tbf != null">tbf = #{tbf},</if>
+        </trim>
+        where row_id = #{rowId}
+    </update>
+
+    <delete id="deletePEnterprisePropertyDetailByRowId" parameterType="String">
+        delete from p_enterprise_property_detail where row_id = #{rowId}
+    </delete>
+
+    <delete id="deletePEnterprisePropertyDetailByRowIds" parameterType="String">
+        delete from p_enterprise_property_detail where row_id in
+        <foreach item="rowId" collection="array" open="(" separator="," close=")">
+            #{rowId}
+        </foreach>
+    </delete>
+</mapper>

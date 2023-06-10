@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.PEnterprisePropertyAmountMapper">
+    
+    <resultMap type="PEnterprisePropertyAmount" id="PEnterprisePropertyAmountResult">
+        <result property="rowId"    column="row_id"    />
+        <result property="applicationNo"    column="application_no"    />
+        <result property="serialno"    column="serialno"    />
+        <result property="amountCode"    column="amount_code"    />
+        <result property="insuredType"    column="insured_type"    />
+        <result property="insuredName"    column="insured_name"    />
+        <result property="insuredAmount"    column="insured_amount"    />
+        <result property="amountConfirm"    column="amount_confirm"    />
+        <result property="valueConfirm"    column="value_confirm"    />
+        <result property="feeRate"    column="fee_rate"    />
+        <result property="feeRateAudit"    column="fee_rate_audit"    />
+        <result property="addressNo"    column="address_no"    />
+        <result property="premiumAmount"    column="premium_amount"    />
+    </resultMap>
+
+    <sql id="selectPEnterprisePropertyAmountVo">
+        select row_id, application_no, serialno, amount_code, insured_type, insured_name, insured_amount, amount_confirm, value_confirm, fee_rate, fee_rate_audit, address_no, premium_amount from p_enterprise_property_amount
+    </sql>
+
+    <select id="selectPEnterprisePropertyAmountList" parameterType="PEnterprisePropertyAmount" resultMap="PEnterprisePropertyAmountResult">
+        <include refid="selectPEnterprisePropertyAmountVo"/>
+        <where>  
+            <if test="rowId != null  and rowId != ''"> and row_id = #{rowId}</if>
+            <if test="applicationNo != null  and applicationNo != ''"> and application_no = #{applicationNo}</if>
+            <if test="serialno != null "> and serialno = #{serialno}</if>
+            <if test="amountCode != null  and amountCode != ''"> and amount_code = #{amountCode}</if>
+            <if test="insuredType != null  and insuredType != ''"> and insured_type = #{insuredType}</if>
+            <if test="insuredName != null  and insuredName != ''"> and insured_name like concat(concat('%', #{insuredName}), '%')</if>
+            <if test="insuredAmount != null "> and insured_amount = #{insuredAmount}</if>
+            <if test="amountConfirm != null  and amountConfirm != ''"> and amount_confirm = #{amountConfirm}</if>
+            <if test="valueConfirm != null  and valueConfirm != ''"> and value_confirm = #{valueConfirm}</if>
+            <if test="feeRate != null "> and fee_rate = #{feeRate}</if>
+            <if test="feeRateAudit != null "> and fee_rate_audit = #{feeRateAudit}</if>
+            <if test="addressNo != null  and addressNo != ''"> and address_no = #{addressNo}</if>
+            <if test="premiumAmount != null "> and premium_amount = #{premiumAmount}</if>
+        </where>
+    </select>
+    
+    <select id="selectPEnterprisePropertyAmountByRowId" parameterType="String" resultMap="PEnterprisePropertyAmountResult">
+        <include refid="selectPEnterprisePropertyAmountVo"/>
+        where row_id = #{rowId}
+    </select>
+        
+    <insert id="insertPEnterprisePropertyAmount" parameterType="PEnterprisePropertyAmount">
+        insert into p_enterprise_property_amount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rowId != null and rowId != ''">row_id,</if>
+            <if test="applicationNo != null and applicationNo != ''">application_no,</if>
+            <if test="serialno != null">serialno,</if>
+            <if test="amountCode != null and amountCode != ''">amount_code,</if>
+            <if test="insuredType != null and insuredType != ''">insured_type,</if>
+            <if test="insuredName != null and insuredName != ''">insured_name,</if>
+            <if test="insuredAmount != null">insured_amount,</if>
+            <if test="amountConfirm != null and amountConfirm != ''">amount_confirm,</if>
+            <if test="valueConfirm != null and valueConfirm != ''">value_confirm,</if>
+            <if test="feeRate != null">fee_rate,</if>
+            <if test="feeRateAudit != null">fee_rate_audit,</if>
+            <if test="addressNo != null and addressNo != ''">address_no,</if>
+            <if test="premiumAmount != null">premium_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rowId != null and rowId != ''">#{rowId},</if>
+            <if test="applicationNo != null and applicationNo != ''">#{applicationNo},</if>
+            <if test="serialno != null">#{serialno},</if>
+            <if test="amountCode != null and amountCode != ''">#{amountCode},</if>
+            <if test="insuredType != null and insuredType != ''">#{insuredType},</if>
+            <if test="insuredName != null and insuredName != ''">#{insuredName},</if>
+            <if test="insuredAmount != null">#{insuredAmount},</if>
+            <if test="amountConfirm != null and amountConfirm != ''">#{amountConfirm},</if>
+            <if test="valueConfirm != null and valueConfirm != ''">#{valueConfirm},</if>
+            <if test="feeRate != null">#{feeRate},</if>
+            <if test="feeRateAudit != null">#{feeRateAudit},</if>
+            <if test="addressNo != null and addressNo != ''">#{addressNo},</if>
+            <if test="premiumAmount != null">#{premiumAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePEnterprisePropertyAmount" parameterType="PEnterprisePropertyAmount">
+        update p_enterprise_property_amount
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applicationNo != null and applicationNo != ''">application_no = #{applicationNo},</if>
+            <if test="serialno != null">serialno = #{serialno},</if>
+            <if test="amountCode != null and amountCode != ''">amount_code = #{amountCode},</if>
+            <if test="insuredType != null and insuredType != ''">insured_type = #{insuredType},</if>
+            <if test="insuredName != null and insuredName != ''">insured_name = #{insuredName},</if>
+            <if test="insuredAmount != null">insured_amount = #{insuredAmount},</if>
+            <if test="amountConfirm != null and amountConfirm != ''">amount_confirm = #{amountConfirm},</if>
+            <if test="valueConfirm != null and valueConfirm != ''">value_confirm = #{valueConfirm},</if>
+            <if test="feeRate != null">fee_rate = #{feeRate},</if>
+            <if test="feeRateAudit != null">fee_rate_audit = #{feeRateAudit},</if>
+            <if test="addressNo != null and addressNo != ''">address_no = #{addressNo},</if>
+            <if test="premiumAmount != null">premium_amount = #{premiumAmount},</if>
+        </trim>
+        where row_id = #{rowId}
+    </update>
+
+    <delete id="deletePEnterprisePropertyAmountByRowId" parameterType="String">
+        delete from p_enterprise_property_amount where row_id = #{rowId}
+    </delete>
+
+    <delete id="deletePEnterprisePropertyAmountByRowIds" parameterType="String">
+        delete from p_enterprise_property_amount where row_id in 
+        <foreach item="rowId" collection="array" open="(" separator="," close=")">
+            #{rowId}
+        </foreach>
+    </delete>
+</mapper>

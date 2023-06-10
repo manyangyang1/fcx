@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DAmountConfirmMapper">
+    
+    <resultMap type="DAmountConfirm" id="DAmountConfirmResult">
+        <result property="propertyType"    column="property_type"    />
+        <result property="amountConfirm"    column="amount_confirm"    />
+    </resultMap>
+
+    <sql id="selectDAmountConfirmVo">
+        select property_type, amount_confirm from d_amount_confirm
+    </sql>
+
+    <select id="selectDAmountConfirmList" parameterType="DAmountConfirm" resultMap="DAmountConfirmResult">
+        <include refid="selectDAmountConfirmVo"/>
+        <where>  
+            <if test="propertyType != null  and propertyType != ''"> and property_type = #{propertyType}</if>
+            <if test="amountConfirm != null  and amountConfirm != ''"> and amount_confirm = #{amountConfirm}</if>
+        </where>
+    </select>
+    
+    <select id="selectDAmountConfirmByPropertyType" parameterType="String" resultMap="DAmountConfirmResult">
+        <include refid="selectDAmountConfirmVo"/>
+        where property_type = #{propertyType}
+    </select>
+        
+    <insert id="insertDAmountConfirm" parameterType="DAmountConfirm">
+        insert into d_amount_confirm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="propertyType != null">property_type,</if>
+            <if test="amountConfirm != null">amount_confirm,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="propertyType != null">#{propertyType},</if>
+            <if test="amountConfirm != null">#{amountConfirm},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDAmountConfirm" parameterType="DAmountConfirm">
+        update d_amount_confirm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="amountConfirm != null">amount_confirm = #{amountConfirm},</if>
+        </trim>
+        where property_type = #{propertyType}
+    </update>
+
+    <delete id="deleteDAmountConfirmByPropertyType" parameterType="String">
+        delete from d_amount_confirm where property_type = #{propertyType}
+    </delete>
+
+    <delete id="deleteDAmountConfirmByPropertyTypes" parameterType="String">
+        delete from d_amount_confirm where property_type in 
+        <foreach item="propertyType" collection="array" open="(" separator="," close=")">
+            #{propertyType}
+        </foreach>
+    </delete>
+</mapper>

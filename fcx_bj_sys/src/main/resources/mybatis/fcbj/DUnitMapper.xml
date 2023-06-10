@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DUnitMapper">
+    
+    <resultMap type="DUnit" id="DUnitResult">
+        <result property="xh"    column="xh"    />
+        <result property="bmz"    column="bmz"    />
+        <result property="bmdm"    column="bmdm"    />
+        <result property="bmmc"    column="bmmc"    />
+        <result property="kshdm"    column="kshdm"    />
+        <result property="kshmc"    column="kshmc"    />
+    </resultMap>
+
+    <sql id="selectDUnitVo">
+        select xh, bmz, bmdm, bmmc, kshdm, kshmc from d_unit
+    </sql>
+
+    <select id="selectDUnitList" parameterType="DUnit" resultMap="DUnitResult">
+        <include refid="selectDUnitVo"/>
+        <where>  
+            <if test="xh != null "> and xh = #{xh}</if>
+            <if test="bmz != null  and bmz != ''"> and bmz = #{bmz}</if>
+            <if test="bmdm != null  and bmdm != ''"> and bmdm = #{bmdm}</if>
+            <if test="bmmc != null  and bmmc != ''"> and bmmc = #{bmmc}</if>
+            <if test="kshdm != null  and kshdm != ''"> and kshdm = #{kshdm}</if>
+            <if test="kshmc != null  and kshmc != ''"> and kshmc = #{kshmc}</if>
+        </where>
+    </select>
+    
+    <select id="selectDUnitByXh" parameterType="Long" resultMap="DUnitResult">
+        <include refid="selectDUnitVo"/>
+        where xh = #{xh}
+    </select>
+        
+    <insert id="insertDUnit" parameterType="DUnit">
+        insert into d_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xh != null">xh,</if>
+            <if test="bmz != null and bmz != ''">bmz,</if>
+            <if test="bmdm != null and bmdm != ''">bmdm,</if>
+            <if test="bmmc != null">bmmc,</if>
+            <if test="kshdm != null and kshdm != ''">kshdm,</if>
+            <if test="kshmc != null">kshmc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xh != null">#{xh},</if>
+            <if test="bmz != null and bmz != ''">#{bmz},</if>
+            <if test="bmdm != null and bmdm != ''">#{bmdm},</if>
+            <if test="bmmc != null">#{bmmc},</if>
+            <if test="kshdm != null and kshdm != ''">#{kshdm},</if>
+            <if test="kshmc != null">#{kshmc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDUnit" parameterType="DUnit">
+        update d_unit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bmz != null and bmz != ''">bmz = #{bmz},</if>
+            <if test="bmdm != null and bmdm != ''">bmdm = #{bmdm},</if>
+            <if test="bmmc != null">bmmc = #{bmmc},</if>
+            <if test="kshdm != null and kshdm != ''">kshdm = #{kshdm},</if>
+            <if test="kshmc != null">kshmc = #{kshmc},</if>
+        </trim>
+        where xh = #{xh}
+    </update>
+
+    <delete id="deleteDUnitByXh" parameterType="Long">
+        delete from d_unit where xh = #{xh}
+    </delete>
+
+    <delete id="deleteDUnitByXhs" parameterType="String">
+        delete from d_unit where xh in 
+        <foreach item="xh" collection="array" open="(" separator="," close=")">
+            #{xh}
+        </foreach>
+    </delete>
+</mapper>

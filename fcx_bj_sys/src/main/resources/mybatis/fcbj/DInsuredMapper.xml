@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DInsuredMapper">
+    
+    <resultMap type="DInsured" id="DInsuredResult">
+        <result property="insuredType"    column="insured_type"    />
+        <result property="insuredName"    column="insured_name"    />
+    </resultMap>
+
+    <sql id="selectDInsuredVo">
+        select insured_type, insured_name from d_insured
+    </sql>
+
+    <select id="selectDInsuredList" parameterType="DInsured" resultMap="DInsuredResult">
+        <include refid="selectDInsuredVo"/>
+        <where>  
+            <if test="insuredType != null  and insuredType != ''"> and insured_type = #{insuredType}</if>
+            <if test="insuredName != null  and insuredName != ''"> and insured_name like concat(concat('%', #{insuredName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDInsuredByInsuredType" parameterType="String" resultMap="DInsuredResult">
+        <include refid="selectDInsuredVo"/>
+        where insured_type = #{insuredType}
+    </select>
+        
+    <insert id="insertDInsured" parameterType="DInsured">
+        insert into d_insured
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="insuredType != null">insured_type,</if>
+            <if test="insuredName != null">insured_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="insuredType != null">#{insuredType},</if>
+            <if test="insuredName != null">#{insuredName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDInsured" parameterType="DInsured">
+        update d_insured
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="insuredName != null">insured_name = #{insuredName},</if>
+        </trim>
+        where insured_type = #{insuredType}
+    </update>
+
+    <delete id="deleteDInsuredByInsuredType" parameterType="String">
+        delete from d_insured where insured_type = #{insuredType}
+    </delete>
+
+    <delete id="deleteDInsuredByInsuredTypes" parameterType="String">
+        delete from d_insured where insured_type in 
+        <foreach item="insuredType" collection="array" open="(" separator="," close=")">
+            #{insuredType}
+        </foreach>
+    </delete>
+</mapper>

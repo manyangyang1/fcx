@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DCoinsurerMapper">
+    
+    <resultMap type="DCoinsurer" id="DCoinsurerResult">
+        <result property="coinsurerCode"    column="coinsurer_code"    />
+        <result property="coinsurerName"    column="coinsurer_name"    />
+    </resultMap>
+
+    <sql id="selectDCoinsurerVo">
+        select coinsurer_code, coinsurer_name from d_coinsurer
+    </sql>
+
+    <select id="selectDCoinsurerList" parameterType="DCoinsurer" resultMap="DCoinsurerResult">
+        <include refid="selectDCoinsurerVo"/>
+        <where>  
+            <if test="coinsurerCode != null  and coinsurerCode != ''"> and coinsurer_code = #{coinsurerCode}</if>
+            <if test="coinsurerName != null  and coinsurerName != ''"> and coinsurer_name like concat(concat('%', #{coinsurerName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDCoinsurerByCoinsurerCode" parameterType="String" resultMap="DCoinsurerResult">
+        <include refid="selectDCoinsurerVo"/>
+        where coinsurer_code = #{coinsurerCode}
+    </select>
+        
+    <insert id="insertDCoinsurer" parameterType="DCoinsurer">
+        insert into d_coinsurer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coinsurerCode != null">coinsurer_code,</if>
+            <if test="coinsurerName != null">coinsurer_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coinsurerCode != null">#{coinsurerCode},</if>
+            <if test="coinsurerName != null">#{coinsurerName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDCoinsurer" parameterType="DCoinsurer">
+        update d_coinsurer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="coinsurerName != null">coinsurer_name = #{coinsurerName},</if>
+        </trim>
+        where coinsurer_code = #{coinsurerCode}
+    </update>
+
+    <delete id="deleteDCoinsurerByCoinsurerCode" parameterType="String">
+        delete from d_coinsurer where coinsurer_code = #{coinsurerCode}
+    </delete>
+
+    <delete id="deleteDCoinsurerByCoinsurerCodes" parameterType="String">
+        delete from d_coinsurer where coinsurer_code in 
+        <foreach item="coinsurerCode" collection="array" open="(" separator="," close=")">
+            #{coinsurerCode}
+        </foreach>
+    </delete>
+</mapper>

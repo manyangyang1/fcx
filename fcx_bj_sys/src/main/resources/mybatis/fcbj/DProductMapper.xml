@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.DProductMapper">
+    
+    <resultMap type="DProduct" id="DProductResult">
+        <result property="productType"    column="product_type"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="productName"    column="product_name"    />
+    </resultMap>
+
+    <sql id="selectDProductVo">
+        select product_type, product_code, product_name from d_product
+    </sql>
+
+    <select id="selectDProductList" parameterType="DProduct" resultMap="DProductResult">
+        <include refid="selectDProductVo"/>
+        <where>  
+            <if test="productType != null  and productType != ''"> and product_type = #{productType}</if>
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat(concat('%', #{productName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDProductByProductType" parameterType="String" resultMap="DProductResult">
+        <include refid="selectDProductVo"/>
+        where product_type = #{productType}
+    </select>
+        
+    <insert id="insertDProduct" parameterType="DProduct">
+        insert into d_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productType != null">product_type,</if>
+            <if test="productCode != null">product_code,</if>
+            <if test="productName != null">product_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productType != null">#{productType},</if>
+            <if test="productCode != null">#{productCode},</if>
+            <if test="productName != null">#{productName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDProduct" parameterType="DProduct">
+        update d_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productCode != null">product_code = #{productCode},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+        </trim>
+        where product_type = #{productType}
+    </update>
+
+    <delete id="deleteDProductByProductType" parameterType="String">
+        delete from d_product where product_type = #{productType}
+    </delete>
+
+    <delete id="deleteDProductByProductTypes" parameterType="String">
+        delete from d_product where product_type in 
+        <foreach item="productType" collection="array" open="(" separator="," close=")">
+            #{productType}
+        </foreach>
+    </delete>
+</mapper>
