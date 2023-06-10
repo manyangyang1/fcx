@@ -75,7 +75,7 @@ public class BusinessServiceImpl implements BusinessService {
             pEnterprisePropertyAmount.setApplicationNo(application.getApplicationNo());
             pEnterprisePropertyAmount.setSerialno(initSerialNo);
             int result = amountMapper.insertPEnterprisePropertyAmount(pEnterprisePropertyAmount);
-            if(result<=0){
+            if (result <= 0) {
                 CommonUtil.rollbackTransaction();
                 return false;
             }
@@ -87,7 +87,7 @@ public class BusinessServiceImpl implements BusinessService {
             pEnterprisePropertyAddress.setApplicationNo(application.getApplicationNo());
             pEnterprisePropertyAddress.setSerialno(initSerialNo);
             int result = addressMapper.insertPEnterprisePropertyAddress(pEnterprisePropertyAddress);
-            if(result<=0){
+            if (result <= 0) {
                 CommonUtil.rollbackTransaction();
                 return false;
             }
@@ -130,7 +130,7 @@ public class BusinessServiceImpl implements BusinessService {
         application.setApplicationDate(new Date());
         application.setApplicationNo(applicationNo);
         application.setInputCode(userId.toString());
-        application.setStatus("1");
+        application.setStatus(quotationForm.getSaveType() == 0 ? "0" : "1");
         return application;
     }
 

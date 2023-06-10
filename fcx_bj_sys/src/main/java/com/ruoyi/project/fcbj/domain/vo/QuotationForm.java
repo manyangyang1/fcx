@@ -24,5 +24,10 @@ public class QuotationForm {
      */
     private String insuranceType;
 
+    /**
+     * 保存类型，0暂存，1提交
+     */
+    private Integer saveType;
+
 
 }
