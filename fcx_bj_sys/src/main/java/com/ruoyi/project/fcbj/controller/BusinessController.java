@@ -1,5 +1,6 @@
 package com.ruoyi.project.fcbj.controller;
 
+import com.ruoyi.framework.aspectj.lang.annotation.Anonymous;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.fcbj.domain.vo.QuotationForm;
@@ -8,10 +9,7 @@ import com.ruoyi.project.fcbj.service.IPApplicationTService;
 import com.ruoyi.project.fcbj.service.IPEnterprisePropertyDetailService;
 import com.ruoyi.project.fcbj.service.IPEnterprisePropertyTService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 业务控制器
@@ -40,8 +38,15 @@ public class BusinessController extends BaseController {
      */
     @PostMapping("/quotation")
     public AjaxResult insertQuotation(@RequestBody QuotationForm quotationForm) {
-        businessService.insertQuotation(quotationForm);
+        if(businessService.insertQuotation(quotationForm)){
+            return AjaxResult.success();
+        }
+        return AjaxResult.error("提交报价信息失败，联系管理员查看错误详情。");
+    }
 
-        return AjaxResult.success();
+    @GetMapping("/dict")
+    @Anonymous
+    public AjaxResult getDict(@RequestParam String insuranceType) {
+        return AjaxResult.success(businessService.getDict(insuranceType));
     }
 }

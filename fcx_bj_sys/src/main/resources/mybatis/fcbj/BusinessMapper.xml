@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fcbj.mapper.BusinessMapper">
+
+    <select id="selectAmountConfirmList" resultType="String" parameterType="String">
+        select AMOUNT_CONFIRM as label from D_AMOUNT_CONFIRM where PROPERTY_TYPE = #{assetType}
+    </select>
+
+
+    <select id="getCoinsurerDictData" resultType="map">
+        select COINSURER_CODE as value,COINSURER_NAME as label from D_COINSURER
+    </select>
+
+    <select id="getCredentialDictData" resultType="map">
+        select CREDENTIAL_CODE as value,CREDENTIAL_NAME as label from D_CREDENTIAL
+    </select>
+
+    <select id="getCustomerCategoryDictData" resultType="map">
+        select CUSTOMERDEPT as value,KQNAME as label from D_CUSTOMERDEPT
+    </select>
+
+    <select id="getExpectedDictData" resultType="map">
+        select EXPECTED_CODE as value,EXPECTED_NAME as label from D_EXPECTED
+    </select>
+
+    <select id="getInsuredSelectedDictData" resultType="String" parameterType="String">
+        select INSURED_NAME as label from D_INSURED where INSURED_TYPE = #{assetType}
+    </select>
+
+    <select id="getPayKindDictData" resultType="map">
+        select PAYCODE as value,PAYNAME as label from D_PAYKIND
+    </select>
+
+    <select id="getInsuranceDetailTypeDictDataByInsuranceType" resultType="map">
+        select PRODUCT_CODE as value,PRODUCT_NAME as label from D_PRODUCT WHERE PRODUCT_TYPE = #{insuranceType}
+    </select>
+
+    <select id="getUnitDictData" resultType="map">
+        select distinct XH as value,BMZ as label from D_UNIT
+    </select>
+
+    <select id="selectValueConfirmList" resultType="String" parameterType="String">
+        select VALUE_CONFIRM as label from D_VALUE_CONFIRM where PROPERTY_TYPE = #{assetType}
+    </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.ruoyi.project.fcbj.service.impl;
 
+import com.ruoyi.common.constant.CommonConstant;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.security.LoginUser;
 import com.ruoyi.project.common.CommonUtil;
@@ -25,18 +26,31 @@ public class BusinessServiceImpl implements BusinessService {
     private final PApplicationTMapper applicationMapper;
     private final PEnterprisePropertyAmountMapper amountMapper;
     private final PEnterprisePropertyAddressMapper addressMapper;
+    private final BusinessMapper businessMapper;
 
-    private static final Map<String, String> insuranceTypeDict = new HashMap<>();
+    //字典相关mapper
+    private final DInsuredMapper insuredMapper;
+    private final DExpectedMapper expectedMapper;
+    private final DAmountConfirmMapper amountConfirmMapper;
+    private final DCredentialMapper credentialMapper;
+    private final DCustomerdeptMapper customerdeptMapper;
+    private final DPaykindMapper paykindMapper;
+    private final DProductMapper productMapper;
+    private final DRydmMapper rydmMapper;
+    private final DUnitMapper unitMapper;
+    private final DValueConfirmMapper valueConfirmMapper;
+
+    private static final Map<String, String> INSURANCE_TYPE_DICT = new HashMap<>();
 
     static {
-        insuranceTypeDict.put("1", "企财");
-        insuranceTypeDict.put("2", "公众");
-        insuranceTypeDict.put("3", "工程");
-        insuranceTypeDict.put("4", "建意");
-        insuranceTypeDict.put("5", "团意");
-        insuranceTypeDict.put("6", "雇主");
-        insuranceTypeDict.put("7", "船舶");
-        insuranceTypeDict.put("8", "货运");
+        INSURANCE_TYPE_DICT.put("1", "企财险");
+        INSURANCE_TYPE_DICT.put("2", "公众险");
+        INSURANCE_TYPE_DICT.put("3", "工程险");
+        INSURANCE_TYPE_DICT.put("4", "建意险");
+        INSURANCE_TYPE_DICT.put("5", "团意险");
+        INSURANCE_TYPE_DICT.put("6", "雇主险");
+        INSURANCE_TYPE_DICT.put("7", "船舶险");
+        INSURANCE_TYPE_DICT.put("8", "货运险");
     }
 
     @Override
@@ -102,6 +116,55 @@ public class BusinessServiceImpl implements BusinessService {
         return finalResult;
     }
 
+    @Override
+    public Map<String, Object> getDict(String insuranceType) {
+        Map<String, Object> result = new HashMap<>();
+        //流动资产保险金额确定方式下拉选项
+        List<String> fixedAssetAmountConfirmList = businessMapper.selectAmountConfirmList(CommonConstant.PROPERTY_TYPE_FIXED_ASSET);
+        result.put("fixedAssetAmountConfirmList", fixedAssetAmountConfirmList);
+        //固定资产保险金额确定方式下拉选项
+        List<String> currentAssetAmountConfirmList = businessMapper.selectAmountConfirmList(CommonConstant.PROPERTY_TYPE_CURRENT_ASSET);
+        result.put("currentAssetAmountConfirmList", currentAssetAmountConfirmList);
+        //查询共保方式下拉字典值
+        List<Map<String, String>> coinsurerDictData = businessMapper.getCoinsurerDictData();
+        result.put("coinsurerDictData", coinsurerDictData);
+        //查询证件类型下拉字典值
+        List<Map<String, String>> credentialDictData = businessMapper.getCredentialDictData();
+        result.put("credentialDictData", credentialDictData);
+        //查询客群分类下拉字典值
+        List<Map<String, String>> customerCategoryDictData = businessMapper.getCustomerCategoryDictData();
+        result.put("customerCategoryDictData", customerCategoryDictData);
+        //查询预期费用投放方式下拉字典值
+        List<Map<String, String>> expectedDictData = businessMapper.getExpectedDictData();
+        result.put("expectedDictData", expectedDictData);
+        //流动资产下拉选项（保额勾选）
+        List<String> fixedAssetInsuredSelectList = businessMapper.getInsuredSelectedDictData(CommonConstant.PROPERTY_TYPE_FIXED_ASSET);
+        result.put("fixedAssetInsuredSelectList", fixedAssetInsuredSelectList);
+        //固定资产下拉选项（保额勾选）
+        List<String> currentAssetInsuredSelectList = businessMapper.getInsuredSelectedDictData(CommonConstant.PROPERTY_TYPE_CURRENT_ASSET);
+        result.put("currentAssetInsuredSelectList", currentAssetInsuredSelectList);
+        //查询付款方式下拉字典值
+        List<Map<String, String>> payKindDictData = businessMapper.getPayKindDictData();
+        result.put("payKindDictData", payKindDictData);
+
+        //根据保险类别查询明细险种下拉字典值
+        List<Map<String, String>> insuranceDetailTypeDictData = businessMapper.getInsuranceDetailTypeDictDataByInsuranceType(INSURANCE_TYPE_DICT.get(insuranceType));
+        result.put("insuranceDetailTypeDictData", insuranceDetailTypeDictData);
+
+        //查询申报机构下拉字典值
+        List<Map<String, String>> unitDictData = businessMapper.getUnitDictData();
+        result.put("unitDictData", unitDictData);
+
+        //流动资产保险金额确定方式下拉选项
+        List<String> fixedAssetValueConfirmList = businessMapper.selectValueConfirmList(CommonConstant.PROPERTY_TYPE_FIXED_ASSET);
+        result.put("fixedAssetValueConfirmList", fixedAssetValueConfirmList);
+        //固定资产保险金额确定方式下拉选项
+        List<String> currentAssetValueConfirmList = businessMapper.selectValueConfirmList(CommonConstant.PROPERTY_TYPE_CURRENT_ASSET);
+        result.put("currentAssetValueConfirmList", currentAssetValueConfirmList);
+
+        return result;
+    }
+
     public boolean checkNumberZero(Integer... insertResults) {
         for (Integer insertResult : insertResults) {
             if (insertResult <= 0) {
@@ -124,7 +187,7 @@ public class BusinessServiceImpl implements BusinessService {
         Long userId = loginUser.getUserId();
         Long deptId = loginUser.getDeptId();
         //报价单编号生成为：《投保人+投保险类》组合，《报价模板-企财险类.xlsx》中要求
-        String applicationNo = enterprise.getApplyName() + insuranceTypeDict.get(quotationForm.getInsuranceType());
+        String applicationNo = enterprise.getApplyName() + INSURANCE_TYPE_DICT.get(quotationForm.getInsuranceType());
         application.setDepartmentGroupCode(deptId.toString());
         application.setApplicant(userId.toString());
         application.setApplicationDate(new Date());
